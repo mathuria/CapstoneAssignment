@@ -1,5 +1,5 @@
 import unittest
-from test_user_authentication import TestAuthenticationRestApi
+from test_auth import TestAuthenticationRestApi
 
 if __name__ == '__main__':
 	suite = unittest.TestLoader().loadTestsFromTestCase(TestAuthenticationRestApi)
