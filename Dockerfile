@@ -4,3 +4,4 @@ RUN pip install -U Flask
 WORKDIR CapstoneAssignment
 RUN ls
 CMD ["python", "app.py"]
+EXPOSE 5000
