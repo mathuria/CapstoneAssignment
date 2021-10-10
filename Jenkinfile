@@ -1,4 +1,4 @@
-node("main"){
+node("master"){
     stage("Clone source code"){
         git branch: 'main', url: 'https://github.com/mathuria/CapstoneAssignment.git'
     }
