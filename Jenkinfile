@@ -16,7 +16,7 @@ node("master"){
     }
     stage("Push image to dockerhub"){
         withDockerRegistry([ credentialsId: "docker", url: "https://registry.hub.docker.com/aishwaryamathuria/myassessmentimage" ]) {
-          sh 'docker push app_image_' + env.BUILD_NUMBER + ":latest"
+          sh 'sudo docker push app_image_' + env.BUILD_NUMBER + ":latest"
        }
     }
 }
