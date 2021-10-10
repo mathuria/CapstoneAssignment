@@ -6,7 +6,7 @@ node("main"){
         sh 'sudo docker build -t app_image_'+env.BUILD_NUMBER + " ."
     }
     stage("Run docker image"){
-        sh 'sudo docker run -dp 8088:5000 --net=host app_image_'+env.BUILD_NUMBER
+        sh 'sudo docker run -dp 5000:5000 --net=host app_image_'+env.BUILD_NUMBER
     }
     stage("Run test scripts"){
         sh 'python rest_tester.py'
