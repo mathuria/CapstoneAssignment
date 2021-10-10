@@ -9,7 +9,7 @@ node("main"){
         sh 'sudo docker run -p 8088:5000 -d app_image_'+env.BUILD_NUMBER
     }
     stage("Run test scripts"){
-        sh 'sudo python rest_tester.py'
+        sh 'python rest_tester.py'
     }
     stage("Stop docker image"){
         sh 'sudo docker container kill $(sudo docker ps -q)'
