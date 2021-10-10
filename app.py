@@ -56,4 +56,4 @@ def change_password(username, password):
 	return resp
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="54.174.138.9", port=5000)
