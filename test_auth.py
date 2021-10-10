@@ -9,42 +9,35 @@ class TestAuthenticationRestApi(unittest.TestCase):
 		self.__user_url = "/user"
 
 	def test_auth_fail(self):
-		r = requests.get(self.__api_base_url + self.__secret_url, auth=('user', 'pass'))
-		self.assertEqual(r.status_code, 401)
+		r = requests.get(self.__api_base_url + "%s/%s/pwd/%s"%(self.__user_url, 'user', 'pass'))
+		print(self.__api_base_url + "%s/%s/pwd/%s"%(self.__user_url, 'user', 'pass'))
+		self.assertEqual(r.status_code, 403)
 
 	def test_auth_default_user(self):
-		r = requests.get(self.__api_base_url + self.__secret_url, auth=('admin', 'root'))
+		r = requests.get(self.__api_base_url + "%s/%s/pwd/%s"%(self.__user_url, 'admin', 'root'))
 		self.assertEqual(r.status_code, 201)
 
 	def test_user_add(self):
-		payload = {'pwd': 'sampletestpasswd123'}
+		passwd = 'sampletestpasswd123'
 		user = '/sluser'
-		r = requests.post(self.__api_base_url + self.__user_url + user, data=payload)
+		r = requests.post(self.__api_base_url + "%s/add/%s/pwd/%s"%(self.__user_url, user, passwd))
 		self.assertEqual(r.status_code, 200)
+
 
 	def test_user_change_passwd(self):
-		payload = {'pwd': 'samplenewpasswd123'}
+		passwd = 'samplenewpasswd123'
 		user = '/sluser'
-		pwd_url = '/pwd'
-		r = requests.put(self.__api_base_url + self.__user_url + user + pwd_url, data=payload)
+		r = requests.post(self.__api_base_url + "%s/%s/pwd/%s"%(self.__user_url, user, passwd))
 		self.assertEqual(r.status_code, 200)
 
-	def test_user_change_passwd_incorrect(self):
-		payload = {'pwd': 'samplenewpasswd123'}
-		user = '/sluser'
-		pwd_url = '/pwd'
-		r = requests.post(self.__api_base_url + self.__user_url + user + pwd_url, data=payload)
-		self.assertEqual(r.status_code, 405)
-
 	def test_change_passwd_wrong_user(self):
-		payload = {'pwd': 'test'}
+		passwd = 'test'
 		user = '/nosluser'
-		pwd_url = '/pwd'
-		r = requests.put(self.__api_base_url + self.__user_url + user + pwd_url, data=payload)
+		r = requests.post(self.__api_base_url + "%s/%s/pwd/%s"%(self.__user_url, user, passwd))
 		self.assertEqual(r.status_code, 403)
 
 	def test_get_user_collection(self):
-        self.test_user_add()
+		self.test_user_add()
 		r = requests.get(self.__api_base_url + self.__user_url)
 		users = r.json()
-		self.assertEqual(users.has_key('sluser'), True)
+		self.assertEqual("sluser" in users.keys(), True)
