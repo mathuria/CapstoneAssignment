@@ -12,6 +12,6 @@ node("main"){
         sh 'python rest_tester.py'
     }
     stage("Stop docker image"){
-        sh 'sudo docker container kill $(sudo docker ps -q)'
+        //sh 'sudo docker container kill $(sudo docker ps -q)'
     }
 }
