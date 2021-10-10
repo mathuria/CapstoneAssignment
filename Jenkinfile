@@ -15,9 +15,8 @@ node("main"){
         sh 'sudo docker container kill $(sudo docker ps -q)'
     }
     stage("Push image to dockerhub"){
-    docker.withRegistry('https://docker.mycorp.com/') {
-          def myImg = docker.image('app_image_'+env.BUILD_NUMBER)
-          sh "docker image push app_image_' + env.BUILD_NUMBER + ":latest "
-        }
+        withDockerRegistry([ credentialsId: "docker", url: "https://registry.hub.docker.com/aishwaryamathuria/myassessmentimage" ]) {
+          sh 'docker push app_image_' + env.BUILD_NUMBER + ":latest"
+       }
     }
 }
