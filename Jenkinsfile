@@ -23,4 +23,7 @@ node("master"){
             sh 'sudo docker push ' + env.DOCKER_REPO + ':latest'
         }
     }
+    stage("Clean image"){
+        sh 'sudo docker rmi app_image_' + env.BUILD_NUMBER
+    }
 }
