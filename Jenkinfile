@@ -15,9 +15,12 @@ node("master"){
         sh 'sudo docker container kill $(sudo docker ps -q)'
     }
     stage("Push image to dockerhub"){
-       withCredentials([usernamePassword(credentialsId: 'dockercreds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
-            sh  'echo ' + env.DOCKER_PASSWORD | 'sudo docker login -u=' + env.DOCKER_USERNAME + ' --password-stdin'
-            sh 'sudo docker push https://registry.hub.docker.com/aishwaryamathuria/myassessmentimage/app_image_' + env.BUILD_NUMBER + ':latest'
+       withCredentials([usernamePassword(credentialsId: 'dockercreds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER'),
+                        string(credentialsId: 'docker_repo', variable: 'DOCKER_REPO')
+                        ]) {
+            sh 'sudo docker tag app_image_' + env.BUILD_NUMBER + ' ' +  env.DOCKER_REPO + ':latest'
+            sh 'echo ' + env.DOCKER_PASSWORD | 'sudo docker login -u=' + env.DOCKER_USERNAME + ' --password-stdin'
+            sh 'sudo docker push ' + env.DOCKER_REPO + ':latest'
         }
     }
 }
