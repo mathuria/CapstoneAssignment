@@ -19,7 +19,7 @@ node("master"){
                         string(credentialsId: 'docker_repo', variable: 'DOCKER_REPO')
                         ]) {
             sh 'sudo docker tag app_image_' + env.BUILD_NUMBER + ' ' +  env.DOCKER_REPO + ':latest'
-            sh 'echo ' + env.DOCKER_PASSWORD | 'sudo docker login -u=' + env.DOCKER_USER + ' --password-stdin'
+            sh 'sudo docker login -u=' + env.DOCKER_USER + ' -p=' + env.DOCKER_PASSWORD
             sh 'sudo docker push ' + env.DOCKER_REPO + ':latest'
         }
     }
