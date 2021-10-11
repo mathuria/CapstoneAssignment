@@ -16,8 +16,8 @@ node("master"){
     }
     stage("Push image to dockerhub"){
        withCredentials([usernamePassword(credentialsId: 'dockercreds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
-            sh 'sudo docker login -u=' + env.DOCKER_USERNAME + ' -p=' + env.DOCKER_PASSWORD'
-            sh 'sudo docker push app_image_' + env.BUILD_NUMBER + ":latest"
+            sh 'sudo docker login -u=' + env.DOCKER_USERNAME + ' -p=' + env.DOCKER_PASSWORD
+            sh 'sudo docker push https://registry.hub.docker.com/aishwaryamathuria/myassessmentimage/app_image_' + env.BUILD_NUMBER + ':latest'
         }
     }
 }
