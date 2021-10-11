@@ -15,7 +15,7 @@ node("master"){
         sh 'sudo docker container kill $(sudo docker ps -q)'
     }
     stage("Push image to dockerhub"){
-        withDockerRegistry([ credentialsId: "docker", url: "https://registry.hub.docker.com/aishwaryamathuria/myassessmentimage" ]) {
+        withDockerRegistry([ credentialsId: "dockercreds", url: "https://registry.hub.docker.com/aishwaryamathuria/myassessmentimage" ]) {
           sh 'sudo docker push app_image_' + env.BUILD_NUMBER + ":latest"
        }
     }
